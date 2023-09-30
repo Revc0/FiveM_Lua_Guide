@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <title>FiveM Scripting Guide</title>
+</head>
+<body>
+<header>
+    <h1>FiveM Scripting Guide</h1>
+</header>
+<div class="wrapper">
+    <nav>
+        <ul>
+            <li><a href="#introduction">Introduction</a>
+                <ul class="sub-menu">
+                    <li><a href="#transitioning-skills">Transitioning Skills to LUA</a></li>
+                    <li><a href="#first-steps-scripting">First Steps in Scripting</a></li>
+                    <li><a href="#client-side-scripting">Client Side Scripting</a></li>
+                    <li><a href="#server-side-scripting">Server Side Scripting</a></li>
+                    <li><a href="#developing-resources">Devloping Resources for Roleplay Servers</a></li>
+                    <li><a href="#networking-fivem">Networking in Fivem</a></li>
+                    <li><a href="#advanced-scripting">Advanced Scripting Techniques</a></li>
+                    <li><a href="#working-frameworks">Working with Popular FiveM Frameworks</a></li>
+                    <li><a href="#testing-debugging">Testing, Debugging and Deployment</a></li>
+                    <li><a href="#testing-debugging">Testing, Debugging, and Deployment</a></li>
+                </ul>
+            </li>
+            <li><a href="#scripting">Actual Scripting</a></li>
+            <ul class="sub-menu">
+                <li><a href="#placeholder">Placeholder</a></li>
+            </ul>
+        </ul>
+    </nav>
+    <main>
+        <main>
+            <section id="introduction">
+                <h2>Introduction</h2>
+                <p>Embark on a journey into GTA Modding...</p>
+                <div class="sub-section">
+                    <h3>Grasping GTA Modding</h3>
+                    <p>GTA V modding is the practice of altering the game’s original content, introducing new features,
+                        experiences, and game mechanics to make the game more enjoyable and diverse. Though not
+                        officially supported by Rockstar, there's a robust community actively developing and using mods,
+                        with FiveM being a notable framework for modding.</p>
+
+                    <h3>Key Concepts in GTA V Modding:</h3>
+                    <div class="sub-section">
+                        <h4>Resources</h4>
+                        <p>Resources are essential units within a FiveM server, containing mods or scripts that modify
+                            gameplay. Written mainly in LUA, resources can also utilize HTML, CSS, and JavaScript to
+                            develop user interfaces, contributing to immersive gaming experiences.</p>
+
+                        <h4>Client-Side vs. Server-Side Scripts</h4>
+                        <p>Client-side scripts run on individual players’ devices, dealing with personalized user
+                            interfaces and visual elements. In contrast, server-side scripts operate on the server,
+                            managing game logic and player interactions. This delineation is crucial for developing
+                            coherent scripts that offer synchronized gameplay.</p>
+
+                        <h4>Events</h4>
+                        <p>Events, initiated by servers or clients, act as triggers within the game. They respond to
+                            player actions, environmental changes, or conditions set in scripts. Effectively managing
+                            events is fundamental for developing dynamic, responsive scripts that enhance the gaming
+                            experience.</p>
+
+                        <h4>Natives</h4>
+                        <p>Natives, predefined functions provided by the game engine, are tools for interacting with the
+                            game’s environment and mechanics. Utilizing natives, developers can craft diverse mods,
+                            ranging from simple tweaks to extensive game overhauls.</p>
+
+                        <h4>Networking</h4>
+                        <p>Networking is imperative in GTA V’s multiplayer setting, ensuring data synchronization
+                            between servers and clients. Proficient use of networking principles results in mods that
+                            support seamless interactions and responsive gameplay, fostering an engaging multiplayer
+                            environment.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="transitioning-skills">
+                <h2>Transitioning Skills to LUA</h2>
+                <p>Moving from other programming languages to LUA for FiveM scripting...</p>
+                <div class="sub-section">
+                    <h3>LUA Syntax and Semantics Essentials</h3>
+                    <p>LUA syntax is known for its simplicity. For beginners, it's important to note that variables in
+                        LUA don't need explicit declaration before assignment. A statement like <code>variable =
+                            25</code> is completely valid. When you assign a value to a variable, LUA automatically
+                        understands that the variable exists. Also, be mindful that comparison operations use '==', not
+                        '=' which is used for assignment.</p>
+
+                    <p>LUA also relies on conventional control structures like <code>if</code>, <code>while</code>, and
+                        <code>for</code> loops, making it relatively easy for beginners to pick up. A fundamental
+                        concept in LUA is the function. Functions in LUA can be assigned to variables, passed as
+                        arguments into other functions, and returned as values, providing a great deal of flexibility
+                        and power in your scripts.</p>
+
+                    <h3>Understanding LUA Data Types</h3>
+                    <p>It’s essential to familiarize yourself with the basic data types in LUA as they form the backbone
+                        of scripting:
+                    <ul>
+                        <li><code>nil</code>: This represents the absence of a value. For instance, if you try to print
+                            a variable that hasn't been assigned a value, it will return <code>nil</code>.
+                        </li>
+                        <li><code>boolean</code>: With only two possible values, true or false, booleans are
+                            straightforward and vital for controlling flow with conditional statements.
+                        </li>
+                        <li><code>number</code>: LUA doesn’t differentiate between integers and floating-point numbers,
+                            simplifying operations involving numeric values.
+                        </li>
+                        <li><code>string</code>: Sequences of characters. Remember to enclose them in either single or
+                            double quotes.
+                        </li>
+                        <li><code>function</code>: In LUA, functions are first-class citizens and can be used in the
+                            same ways as other data types, like numbers and strings.
+                        </li>
+                        <li><code>userdata</code>: This advanced feature allows arbitrary C data to be stored in LUA
+                            variables, used mostly when integrating with C libraries.
+                        </li>
+                        <li><code>thread</code>: Threads support coroutines or collaborative multitasking, a topic that
+                            might require deeper study as you progress in your understanding of LUA.
+                        </li>
+                        <li><code>table</code>: This is LUA’s only data structuring mechanism and is used to represent
+                            arrays, sets, records, etc. Tables are immensely flexible, and understanding their use is
+                            crucial for effective LUA scripting.
+                        </li>
+                    </ul>
+                    </p>
+
+                    <h3>Transition Insights: JavaScript to LUA</h3>
+                    <p>For developers with a JavaScript background, it’s essential to understand how LUA mimics
+                        object-oriented programming. Instead of objects and methods, LUA uses tables and functions.
+                        Also, while JavaScript has both <code>undefined</code> and <code>null</code> values, LUA only
+                        has <code>nil</code> to represent the absence of a value. Remember that in LUA, variable scope
+                        is vital: while global variables can be declared freely, local variables must be preceded with
+                        the <code>local</code> keyword to be declared properly.</p>
+
+                    <h3>FiveM Forum, Popular Creators, Cheat-Sheets</h3>
+                    <p>The <a href="https://forum.cfx.re/" target="_blank">FiveM Forum</a> is a platform where you can
+                        find discussions related to FiveM scripting, view and release scripts, seek help, and engage
+                        with other community members. In the forum, you can also discover scripts shared by popular
+                        creators in the community; examining these scripts can provide insights into different styles
+                        and techniques of LUA scripting. There are also cheat-sheets available online that consolidate
+                        essential LUA syntax and functions, serving as quick references as you write and debug your
+                        scripts. Using these resources, start by understanding and making small modifications to
+                        existing scripts, and then try developing your own as you become more familiar with LUA.
+                    </p>
+                </div>
+            </section>
+
+
+            <section id="first-steps-scripting">
+                <h2>First Steps in Scripting</h2>
+                <p>Let’s begin scripting for FiveM.</p>
+                <div class="sub-section">
+                    <h3>Creating Your First Usable Script</h3>
+                    <p>Start with a script that offers functionality in a FiveM roleplay server. A script for a new
+                        player command is a practical starting point.</p>
+
+                    <h3>Understanding Resource Files and Directories</h3>
+                    <p>Resources need their folder within the ‘resources’ directory, accompanied by a ‘fxmanifest.lua’
+                        file for metadata and script references.</p>
+
+                    <h3>Building a Simple Custom Command</h3>
+                    <p>A ‘/hello’ command can be your initial script. It’s client-initiated but needs server processing,
+                        giving you a feel for both client-side and server-side scripting.</p>
+
+                    <h3>Learning from the Community</h3>
+                    <p>The FiveM community is active with experienced developers sharing their work. Creators like <a
+                            href="https://github.com/qbcore-framework" target="_blank">qbcore-framework</a> and <a
+                            href="https://github.com/esx-framework" target="_blank">esx-framework</a> have shared
+                        scripts and resources on GitHub. Study their code, observe their style, and learn their
+                        implementation methods.</p>
+
+                    <h3>Referencing Cheatsheets and Frameworks</h3>
+                    <p>Cheatsheets provide quick help and guidance. Understanding frameworks like QBcore and ESX is
+                        crucial, as they offer platforms for advanced mods. Take the time to learn their styles,
+                        conventions, and methodologies.</p>
+
+                    <h2>First Script Exercise: Blip Maker</h2>
+                    <p>Now, let's walk through a practical exercise to create a simple Blip Maker script for a FiveM
+                        server running on the QBcore framework. This script will enable you to create a blip at a
+                        specified location on the game map, providing a hands-on experience in crafting a usable script
+                        for FiveM roleplay servers.</p>
+                    <div class="sub-section">
+                        <h3>File Structure</h3>
+                        <pre>
+        /blipmaker/
+            /client/
+                client.lua
+            fxmanifest.lua
+        </pre>
+
+                        <h3>fxmanifest.lua</h3>
+                        <p>The <code>fxmanifest.lua</code> file defines metadata and dependencies for the script.</p>
+                        <pre>
+        fx_version 'cerulean'
+        games { 'gta5' }
+
+        description 'BlipMaker for QBcore'
+
+        client_scripts {
+            'client/client.lua'
+        }
+
+        dependencies {
+            'qb-core'
+        }
+        </pre>
+
+                        <h3>client.lua</h3>
+                        <p>The <code>client.lua</code> file contains the main functionality of the Blip Maker script. A
+                            detailed explanation of this script is provided in the <a href="#script-explanation">Script
+                                Explanation</a> section below.</p>
+                        <pre>
+  QBCore = nil
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10)
+        if QBCore == nil then
+            TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)
+            Citizen.Wait(200)
+        end
+    end
+end)
+
+RegisterCommand("blip", function(source, args, rawCommand)
+    local name = args[1]
+    local x = tonumber(args[2])
+    local y = tonumber(args[3])
+    local z = tonumber(args[4])
+
+    if name and x and y and z then
+        TriggerEvent('blipmaker:createBlip', name, x, y, z)
+    else
+        print("Invalid arguments")
+    end
+end, false)
+
+RegisterNetEvent('blipmaker:createBlip')
+AddEventHandler('blipmaker:createBlip', function(name, x, y, z)
+    local blip = AddBlipForCoord(x, y, z)
+    SetBlipSprite(blip, 1)
+    SetBlipColour(blip, 2)
+    SetBlipScale(blip, 0.8)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(name)
+    EndTextCommandSetBlipName(blip)
+end)
+        </pre>
+
+                        <h3>Script Explanation</h3>
+                        <p>
+                            The <code>fxmanifest.lua</code> file is necessary for FiveM to recognize your resource. It
+                            defines the metadata and client-side scripts for your resource, and it specifies that the
+                            resource depends on 'qb-core'.
+                            <br><br>
+                            The <code>client.lua</code> script initializes the <code>QBCore</code> object, which is
+                            essential for working with the QBcore framework. It then registers a command named <code>blip</code>.
+                            When this command is used in the game with the right arguments (name, x, y, z), it triggers
+                            the <code>blipmaker:createBlip</code> event with those arguments. The event handler for
+                            <code>blipmaker:createBlip</code> then creates a blip at the specified coordinates with the
+                            given name.
+                        </p>
+
+                        <h3>Testing Your Script</h3>
+                        <p>
+                            To test your script, place the <code>blipmaker</code> folder in the <code>resources</code>
+                            directory of your FiveM server. Then, add <code>start blipmaker</code> to your server’s
+                            <code>server.cfg</code> file. Once you’ve done that, start your server, join it, and use the
+                            <code>/blip</code> command followed by the name and coordinates where you want the blip to
+                            appear.
+                        </p>
+
+                        <h3>Practice Exercise</h3>
+                        <p>For practice, try modifying the sprite, color, and scale of the blip. Experiment with adding
+                            more commands and functionalities. Explore the QBcore documentation and learn about other
+                            functions and features you can integrate into your script.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="client-side-scripting">
+                <h2>Client-Side Scripting Essentials</h2>
+                <p>Dive deep into the core components of client-side scripting within FiveM.</p>
+                <div class="sub-section">
+                    <h3>Understanding Client-Side Events</h3>
+                    <p>Client-side events are essential for responsive gameplay. For instance, let's create a
+                        client-side event that shows a welcome message to the player.</p>
+                    <pre>
+<span class="comment">-- Lua: Registering and using a Client-Side Event</span>
+RegisterNetEvent('showWelcome')
+AddEventHandler('showWelcome', function()
+    TriggerEvent('chatMessage', "SERVER", {255, 0, 0}, "Welcome to Our FiveM Server!")
+end)
+        </pre>
+                    <p>Here, we register a client-side event called <code>'showWelcome'</code>. When this event is
+                        triggered, it will execute the function, which sends a chat message to the player welcoming them
+                        to the server.</p>
+
+                    <h3>Natives and Game Element Manipulation</h3>
+                    <p>Now let’s use natives to spawn a car:</p>
+                    <pre>
+<span class="comment">-- Lua: Using Natives to Spawn a Vehicle</span>
+RegisterCommand("car", function(source, args, rawCommand)
+    local vehicleName = args[1] or "adder"
+    RequestModel(vehicleName)
+
+    while not HasModelLoaded(vehicleName) do
+        Wait(500)
+    end
+
+    local playerPed = PlayerPedId()
+    local pos = GetEntityCoords(playerPed)
+    local vehicle = CreateVehicle(vehicleName, pos.x, pos.y, pos.z, GetEntityHeading(playerPed), true, false)
+
+    TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
+end, false)
+        </pre>
+                    <p>This script registers a command <code>/car</code> that spawns a car. The player types <code>/car
+                        [vehicleName]</code>, and the script requests and loads the vehicle model, gets the player's
+                        position, creates the vehicle at the player’s location, and warps the player into the driver’s
+                        seat.</p>
+
+                    <h3>Integrating Interactive UIs</h3>
+                    <p>For a responsive UI, consider this example:</p>
+                    <pre>
+<span class="comment">-- Lua: Sending data to HTML/JS UI</span>
+RegisterNUICallback('main', function(data, cb)
+    SetDisplay(false)
+    cb('ok')
+end)
+
+function SetDisplay(bool)
+    display = bool
+    SetNuiFocus(bool, bool)
+    SendNUIMessage({
+        type = "ui",
+        status = bool,
+    })
+end)
+        </pre>
+                    <p>In this example, the Lua script interacts with an NUI (HTML/JS) interface. It registers an NUI
+                        callback, which is triggered by the UI. The script then hides the UI and sends confirmation back
+                        to the UI. Ensure your HTML file is well-structured, with event listeners set up to communicate
+                        with the Lua script. Linking the HTML file with the Lua script is typically done within your
+                        resource manifest file, like <code>fxmanifest.lua</code>, by defining the HTML file as a
+                        'ui_page'.</p>
+
+                    <p>To visualize in-game: place the HTML file with your UI in the resource directory, ensure it's
+                        referenced in the manifest, start the server, join the game, and execute the relevant commands
+                        or triggers to interact with your UI.</p>
+                </div>
+            </section>
+
+
+            <section id="server-side-scripting">
+                <h2>Server-Side Scripting Essentials</h2>
+                <p>Delve deeper into the world of server-side scripting for comprehensive and effective FiveM mods.</p>
+                <div class="sub-section">
+                    <h3>Handling Server-Side Events</h3>
+                    <p>Server-side events are imperative in managing game states and player interactions. For
+                        example:</p>
+                    <pre>
+<span class="comment">-- Lua: Server-Side Event</span>
+RegisterServerEvent('playerJoined')
+AddEventHandler('playerJoined', function()
+    local player = source
+    print(GetPlayerName(player) .. " joined the server.")
+end)
+        </pre>
+                    <p>This code snippet registers and handles a 'playerJoined' event, announcing in the console when a
+                        player joins the server.</p>
+
+                    <h3>Creating and Managing Custom Game Modes</h3>
+                    <p>Custom game modes provide unique experiences. Let’s illustrate with an auto-respawn mode:</p>
+                    <pre>
+<span class="comment">-- Lua: Auto-Respawn Game Mode</span>
+RegisterServerEvent('startAutoRespawnMode')
+AddEventHandler('startAutoRespawnMode', function()
+    print("Auto Respawn Mode Activated")
+end)
+
+AddEventHandler('playerDropped', function(reason)
+    local player = source
+    print(GetPlayerName(player) .. " left the server. Reason: " .. reason)
+end)
+
+AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
+    local player = source
+    print(name .. " is connecting to the server...")
+    -- Add your respawn logic here
+end)
+        </pre>
+                    <p>This code starts an auto-respawn game mode. When a player drops, it logs the reason, and upon a
+                        player connecting, it indicates they are joining. Place your respawn logic in the designated
+                        area.</p>
+
+                    <h3>Working with Server Data and Databases</h3>
+                    <p>Data management is fundamental. For instance:</p>
+                    <pre>
+<span class="comment">-- Lua: MySQL Data Interaction</span>
+MySQL.ready(function ()
+    MySQL.Async.fetchAll('SELECT * FROM players', {}, function(players)
+        print(players[1].name)  -- Adjust with actual column name
+    end)
+end)
+        </pre>
+                    <p>This script interacts with a MySQL database, retrieving and printing player names from a
+                        'players' table. Modify the SQL query and table structure to fit your database.</p>
+                </div>
+            </section>
+
+
+            <section id="developing-resources">
+                <h2>Developing Resources for Roleplay Servers</h2>
+                <p>Below, explore the essentials of developing resources for GTA V roleplay servers. This section aims
+                    to provide a strong foundation for creating immersive custom experiences.</p>
+
+                <div class="sub-section">
+                    <h3>Understanding Roleplay Scripting</h3>
+                    <p>Roleplay scripting creates a vibrant, immersive game world. Learn about player roles, including
+                        coding specific tasks and permissions, setting up in-game economies, and scripting interactive
+                        scenarios and missions. For a deep dive into scripting basics, visit the <a
+                                href="https://docs.fivem.net/docs/" target="_blank">FiveM Documentation</a>.</p>
+
+                    <h3>Developing Custom Jobs and Activities</h3>
+                    <p>Engaging jobs and activities are crucial. Consider tasks, payouts, and integration into the
+                        game's economy when developing jobs. For activities, create engaging tasks offering variety and
+                        spontaneity to the gaming experience. Check the <a href="https://forum.cfx.re/" target="_blank">FiveM
+                            Forums</a> for community wisdom and examples.</p>
+
+                    <h3>Implementing Custom Clothing and Vehicles</h3>
+                    <p>For custom clothing:</p>
+                    <ul>
+                        <li>Create or obtain 3D models of clothing items.</li>
+                        <li>Texture these models.</li>
+                        <li>Use configuration files to integrate them into the game properly.</li>
+                    </ul>
+                    <p>For vehicles:</p>
+                    <ul>
+                        <li>Create or find vehicle 3D models.</li>
+                        <li>Apply appropriate textures and configurations.</li>
+                        <li>Edit <code>vehicles.meta</code> to define properties and behaviors, ensuring they mesh with
+                            the game’s physics and mechanics. Find modding resources at <a
+                                    href="https://www.gta5-mods.com/" target="_blank">GTA5-Mods.com</a>.
+                        </li>
+                    </ul>
+
+                    <h3>Creating and Implementing MLOs</h3>
+                    <p>MLOs (Map Locations) enhance the game environment. Use tools like CodeWalker or MapEditor for
+                        creating or editing these assets. Ensure they are visually appealing and optimized for game
+                        performance. For tools and tips, visit <a href="https://www.gta5-mods.com/tools"
+                                                                  target="_blank">GTA5-Mods Tools</a>.</p>
+
+                    <h3>Working with Meta Files</h3>
+                    <p>Understanding meta files, like <code>vehicles.meta</code> and <code>weapon.meta</code>, is
+                        crucial. These XML files define various game entity attributes:</p>
+                    <ul>
+                        <li><code>vehicles.meta</code>: Contains properties of vehicles, such as handling and speed.
+                            Adjust this file when adding or modifying vehicles.
+                        </li>
+                        <li><code>weapon.meta</code>: Defines weapon attributes including damage, range, and ammunition
+                            type. Familiarize yourself with its structure and parameters for effective custom weapon
+                            implementation.
+                        </li>
+                    </ul>
+
+                    <h3>Effective Development Workflow</h3>
+                    <p>The development process is iterative and systematic:</p>
+                    <ul>
+                        <li><strong>Planning:</strong> Start with a clear vision. Whether it's a new piece of clothing,
+                            a vehicle, a job, or a script, know what you want to achieve. Define the scope, objectives,
+                            and specifications of your resource. In the case of scripts, understand the functionalities
+                            they should provide and how they’ll interact with other game elements.
+                        </li>
+                        <li><strong>Designing:</strong> Visualize your resource. Draft designs for clothing and
+                            vehicles, and create pseudocode or flowcharts for scripts. For scripts, plan the logic,
+                            structure, and flow before diving into coding. Understand the user experience, define the
+                            user interface (if any), and think about the potential scenarios in which your script will
+                            be used.
+                        </li>
+                        <li><strong>Developing:</strong> This is where your plan comes to life. Write the code for
+                            scripts, create 3D models for clothing and vehicles, or configure meta files. Follow best
+                            practices, maintain clean and organized code, and ensure your resource is optimized for
+                            performance. For scripts, develop in increments, adding and testing functionalities one at a
+                            time. Utilize version control systems like Git to manage and track your development
+                            progress.
+                        </li>
+                        <li><strong>Testing:</strong> A crucial step in development. Test each resource thoroughly to
+                            identify bugs, glitches, and performance issues. For scripts, conduct both unit testing
+                            (testing individual functions) and integration testing (testing the script as a whole).
+                            Ensure compatibility with existing game elements and other scripts, and make necessary
+                            adjustments.
+                        </li>
+                        <li><strong>Iterating:</strong> Based on testing feedback, make improvements and refinements to
+                            your resources. Optimization is key, whether for scripts, models, or any other assets.
+                            Iterate until you achieve a polished, reliable resource that enhances the gaming experience
+                            without causing disruptions or performance issues.
+                        </li>
+                    </ul>
+                    <p>Repeat this workflow for each resource you develop, continually learning and refining your
+                        process as you gain more experience and familiarity with FiveM’s modding ecosystem.</p>
+                </div>
+            </section>
+
+
+            <section id="networking-fivem">
+                <h2>Networking in FiveM</h2>
+                <p>Mastering networking principles for smooth and secure gameplay...</p>
+                <div class="sub-section">
+                    <h3>Understanding Data Synchronization</h3>
+                    <p>Data synchronization is crucial for a consistent multiplayer experience. Learn how to effectively
+                        synchronize data between the server and clients, ensuring that all players have access to
+                        accurate and current game information at all times.</p>
+                    <h3>Ensuring Smooth Player Interactions</h3>
+                    <p>Smooth player interactions are vital for enjoyable gameplay. Understanding how to optimize
+                        networking protocols and reduce latency can lead to more fluid and responsive player
+                        interactions, making the game more enjoyable for everyone involved.</p>
+                    <h3>Implementing Security Measures for Data Transactions</h3>
+                    <p>Security is a top priority when handling data transactions between the server and clients.
+                        Implement robust security measures to protect player data and prevent unauthorized access,
+                        ensuring a safe and secure gaming environment for all.</p>
+                </div>
+            </section>
+
+            <section id="advanced-scripting">
+                <h2>Advanced Scripting Techniques</h2>
+                <p>Diving deeper into advanced scripting techniques for sophisticated mods...</p>
+                <div class="sub-section">
+                    <h3>Diving Deeper into Natives and Game Mechanics</h3>
+                    <p>Understanding the depth of natives and game mechanics opens up a world of possibilities for
+                        modding. Delve deeper into advanced natives and game mechanics to create mods that are not only
+                        entertaining but also highly sophisticated and polished.</p>
+                    <h3>Optimizing Scripts for Performance and Stability</h3>
+                    <p>Performance and stability are paramount for any script. Learn advanced techniques for optimizing
+                        your scripts, ensuring that they run smoothly without causing crashes or slowing down the game,
+                        providing players with a seamless gaming experience.</p>
+                    <h3>Creating Complex, Interactive Gameplay Scenarios</h3>
+                    <p>Engage players with complex, interactive gameplay scenarios that require strategic thinking and
+                        planning. Develop advanced scripts that offer challenging and entertaining gameplay elements,
+                        keeping players engaged and coming back for more.</p>
+                </div>
+            </section>
+
+
+            <section id="working-frameworks">
+                <h2>Working with Popular Frameworks</h2>
+                <p>Learning and mastering popular FiveM frameworks...</p>
+                <div class="sub-section">
+                    <h3>Understand the Basics of Essential FiveM Frameworks</h3>
+                    <p>Before diving into development, it's crucial to understand the basics of the most popular and
+                        essential FiveM frameworks. These frameworks provide a foundation for modding and scripting,
+                        enabling developers to build, extend, and customize their game servers efficiently. Start with
+                        familiarizing yourself with frameworks like ESX, vRP, and others that are widely used in the
+                        FiveM community.</p>
+                    <h3>Customize Frameworks to Suit Your Server’s Needs</h3>
+                    <p>Each gaming server is unique, with its own set of requirements and player expectations. Learn how
+                        to effectively customize these frameworks to suit the specific needs of your server, whether
+                        it’s adjusting existing features, adding new functionalities, or improving the overall player
+                        experience through mods and scripts.</p>
+                </div>
+            </section>
+
+            <section id="testing-debugging">
+                <h2>Testing, Debugging, and Deployment</h2>
+                <p>Ensuring the stability and readiness of your scripts for live environments...</p>
+                <div class="sub-section">
+                    <h3>Develop Robust Testing Routines for Your Scripts</h3>
+                    <p>Testing is a critical phase in the development process. Develop robust testing routines and
+                        practices to identify and fix bugs, improve performance, and ensure that your scripts work as
+                        intended in various scenarios. Implementing systematic testing will help you build confidence in
+                        your scripts before deploying them to live servers.</p>
+                    <h3>Learn Advanced Debugging Techniques</h3>
+                    <p>Debugging is an inevitable part of development. Acquire advanced debugging techniques and tools
+                        that can help you efficiently troubleshoot and resolve issues in your scripts. With effective
+                        debugging skills, you can minimize downtime and enhance the stability of your game server.</p>
+                    <h3>Master the Deployment Process for Live Servers</h3>
+                    <p>Deployment is the final step in bringing your scripts to life. Master the process of deploying
+                        your scripts to live servers, understanding the nuances of hosting, distribution, and
+                        maintenance. Familiarize yourself with best practices for deployment to ensure a smooth
+                        transition from development to live environments.</p>
+                </div>
+            </section>
+        </main>
+    </main>
+</body>
+</html>
